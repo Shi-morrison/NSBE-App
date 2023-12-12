@@ -6,15 +6,14 @@ import {useTailwind} from 'tailwind-rn';
 const MyCalendar = () => {
     useEffect(() => {
         const calendarId = process.env.EXPO_PUBLIC_CALENDAR_ID; //Import NSBE calendar id (Mock Calendar for now)
-        const apiKey = process.env.EXPO_PUBLIC_API_KEY; //Import NSBE Google API Key
-        const apiUrl = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}`; // Merge for api request link
+        const api_Key = process.env.EXPO_PUBLIC_API_KEY; //Import NSBE Google API Key
+        const apiUrl = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${api_Key}`; // Merge for api request link
 
 
         const fetchData = async () => {
             try {
                 const response = await fetch(apiUrl); // Make initial api call
                 const data = await response.json(); // Parse the data response
-                console.log(data)
 
                 if (data.items) {
                 data.items.forEach(event => {
