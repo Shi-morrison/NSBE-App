@@ -7,38 +7,42 @@ interface Event {
     summary: string;
     start: {
       dateTime?: string;
-      date?: string;
     };
     end: {
       dateTime?: string;
-      date?: string;
     };
 }
 
 const MyCalendar = () => {
-    useEffect(() => {
-        const calendarId = process.env.EXPO_PUBLIC_CALENDAR_ID; //Import NSBE calendar id (Mock Calendar for now)
-        const apiKey = process.env.EXPO_PUBLIC_API_KEY; //Import NSBE Google API Key
-        const apiUrl = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events/?key=${apiKey}`; // Merge for api request link
+    const events: Event[] = [];
+    const calendarId = process.env.EXPO_PUBLIC_CALENDAR_ID; //Import NSBE calendar id (Mock Calendar for now)
+    const apiKey = process.env.EXPO_PUBLIC_API_KEY; //Import NSBE Google API Key
+    const apiUrl = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events/?key=${apiKey}`; // Merge for api request link
 
-        const fetchData = async () => {
-            try {
-                const response = await fetch(apiUrl); // Make initial api call
-                const data = await response.json(); // Parse the data response
 
-                if (data.items) {
-                    data.items.forEach((event: Event) => {
-                        console.log('Event Summary:', event.summary); // Store event summary
-                        console.log('Event Start:', event.start.dateTime || event.start.date); // Store event start date
-                        console.log('Event End:', event.end.dateTime || event.end.date); // Store event end date
-                        console.log('---');
+    const fetchData = async () => {
+        try {
+            const response = await fetch(apiUrl); // Make initial api call
+            const data = await response.json(); // Parse the data response
+
+            if (data.items) {
+                data.items.forEach((event: Event) => {
+                    // Store each event in the Events list
+                    events.push({
+                        summary: event.summary,
+                        start: event.start,
+                        end: event.end,
                     });
-                }
-            } catch (error) {
-                console.log('Error fetching data:', error); // log any errors caught
+                    
+                });
             }
-        };
+            console.log(events)
+        } catch (error) {
+            console.log('Error fetching data:', error); // log any errors caught
+        }
+    };
 
+    useEffect(() => {
         fetchData(); // Call function on every new render of the calendar
     }, []);
 
