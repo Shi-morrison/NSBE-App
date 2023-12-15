@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Calendar } from 'react-native-calendars';
-import {useTailwind} from 'tailwind-rn';
+import { View } from 'react-native';
+import { Calendar, Agenda } from 'react-native-calendars';
 
 interface Event {
     summary: string;
@@ -46,9 +45,9 @@ const MyCalendar = () => {
         fetchData(); // Call function on every new render of the calendar
     }, []);
 
-     // Create tailwind object
+    // Create tailwind object
     return (
-        <View>
+        <View className='flex-1 bg-white'>
         {/* Get Events fetched from google calendar and display them in the calendar component */}
         <Calendar
             current={'2023-01-01'}
@@ -58,6 +57,7 @@ const MyCalendar = () => {
             onDayPress={(day) => {
             console.log('selected day', day);
             }}
+            className='bg-blue-100'
             theme={{
             arrowColor: 'white',
             selectedDayBackgroundColor: 'blue-600',
