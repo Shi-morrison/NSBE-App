@@ -60,21 +60,23 @@ const Socials = () => {
       </View>
 
       {/* Container for the Linktree button */}
-      <View className='mb-7 ml-3'>
+      <View className='mb-8 ml-3'>
         {/* Linktree button */}
         <TouchableOpacity
           onPress={() => openURL('https://linktr.ee/Nsbe.UCF')}
-          className='flex-row gap-2 justify-center items-center bg-green-500 w-full rounded-full py-2 px-6 mt-5'
+          className=' bg-green-500 w-full rounded-full py-2 px-6 mt-5'
         >
-          {/* Linktree icon */}
-          <Image
-            source={require('../assets/linktree-icon.png')}
-            style={{ width: 20, height: 20 }}
-          />
-          {/* Button text */}
-          <Text className='text-center text-black font-bold text-2xl'>
-            NSBE Linktree
-          </Text>
+          <View className='flex-row gap-2 justify-center items-center'>
+            {/* Button text */}
+            <Text className='text-center text-black font-bold text-2xl'>
+              NSBE Linktree
+            </Text>
+            {/* Linktree icon */}
+            <Image
+              source={require('../assets/linktree-icon.png')}
+              style={{ width: 20, height: 20 }}
+            />
+          </View>
         </TouchableOpacity>
       </View>
     </View>
