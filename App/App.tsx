@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View } from 'react-native';
 import Calendar from './components/Calendar'
+import Socials from './components/Socials';
 
 
 export default function App() {
@@ -11,6 +12,7 @@ export default function App() {
         <StatusBar style="auto" />
       </View>
       <Calendar />
+      <Socials />
 
 
     </>
