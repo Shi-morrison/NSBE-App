@@ -33,7 +33,7 @@ const MyCalendar = () => {
           });
         });
       }
-      console.log(events);
+      //console.log(events);
     } catch (error) {
       console.log("Error fetching data:", error); // log any errors caught
     }
