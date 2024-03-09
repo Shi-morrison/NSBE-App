@@ -96,7 +96,7 @@ const MyCalendar = () => {
   }, []);
 
   const convertToMarkedDates = (eventsArray: EventDate[]) => {
-    const markedDatesObj: { [date: string]: AgendaEntry[] } = {};
+    const markedDatesObj: { [date: string]: any } = {};
     let i = 0;
     eventsArray.forEach((event) => {
       if (event.start.date && event.end.date) {
@@ -118,7 +118,7 @@ const MyCalendar = () => {
   };
 
   const convertToMarkedDateTimes = (eventsArray: EventDateTime[]) => {
-    const markedDatesObj: { [date: string]: AgendaEntry[] } = {};
+    const markedDatesObj: { [date: string]: any } = {};
     let i = 0;
     eventsArray.forEach((event) => {
       if (event.start.dateTime && event.end.dateTime) {
@@ -131,7 +131,18 @@ const MyCalendar = () => {
         }
         markedDatesObj[dateString].push({
           name: event.summary,
-          day: daysOfWeek[startDate.getDay()],
+          startTime: startDate.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          }),
+          endTime: endDate.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          }),
+          startDay: daysOfWeek[startDate.getDay()],
+          endDay: daysOfWeek[endDate.getDay()],
           height: 80,
         });
       }
@@ -140,13 +151,13 @@ const MyCalendar = () => {
   };
 
   const renderItem = (item: any) => {
-    console.log(item);
     return (
       <TouchableOpacity>
         <Card>
           <Card.Content>
-            <View>
+            <View className="flex flex-1">
               <Text>{item.name}</Text>
+              <Text>{`${item.startTime} - ${item.endTime}`}</Text>
             </View>
           </Card.Content>
         </Card>
