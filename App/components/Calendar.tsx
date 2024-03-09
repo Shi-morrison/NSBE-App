@@ -1,7 +1,14 @@
 import { useEffect } from "react";
-import { View } from "react-native";
-import { Calendar, Agenda } from "react-native-calendars";
+import { TouchableOpacity, View, Text } from "react-native";
+import {
+  Agenda,
+  DateData,
+  AgendaEntry,
+  AgendaSchedule,
+} from "react-native-calendars";
 import { useState } from "react";
+import { Card } from "react-native-paper";
+import daysOfWeek from "../constants/Days";
 
 interface EventDate {
   summary: string;
@@ -36,6 +43,7 @@ const MyCalendar = () => {
   const [markedDatesWithDateTime, setMarkedDatesWithDateTime] = useState<{
     [date: string]: any;
   }>({});
+  const [items, setItems] = useState({});
 
   const fetchData = async () => {
     try {
@@ -75,7 +83,6 @@ const MyCalendar = () => {
         const markedDatesObjWithDateTime = convertToMarkedDateTimes(
           eventsArrayWithDateTime
         );
-
         setMarkedDatesWithDate(markedDatesObjWithDate);
         setMarkedDatesWithDateTime(markedDatesObjWithDateTime);
       }
@@ -89,7 +96,7 @@ const MyCalendar = () => {
   }, []);
 
   const convertToMarkedDates = (eventsArray: EventDate[]) => {
-    const markedDatesObj: { [date: string]: any } = {};
+    const markedDatesObj: { [date: string]: AgendaEntry[] } = {};
     let i = 0;
     eventsArray.forEach((event) => {
       if (event.start.date && event.end.date) {
@@ -101,9 +108,9 @@ const MyCalendar = () => {
           markedDatesObj[dateString] = [];
         }
         markedDatesObj[dateString].push({
-          summary: event.summary,
-          start: startDate,
-          end: endDate,
+          name: event.summary,
+          day: daysOfWeek[startDate.getDay()],
+          height: 80,
         });
       }
     });
@@ -111,7 +118,7 @@ const MyCalendar = () => {
   };
 
   const convertToMarkedDateTimes = (eventsArray: EventDateTime[]) => {
-    const markedDatesObj: { [date: string]: any } = {};
+    const markedDatesObj: { [date: string]: AgendaEntry[] } = {};
     let i = 0;
     eventsArray.forEach((event) => {
       if (event.start.dateTime && event.end.dateTime) {
@@ -123,61 +130,37 @@ const MyCalendar = () => {
           markedDatesObj[dateString] = [];
         }
         markedDatesObj[dateString].push({
-          summary: event.summary,
-          start: startDate,
-          end: endDate,
+          name: event.summary,
+          day: daysOfWeek[startDate.getDay()],
+          height: 80,
         });
       }
     });
     return markedDatesObj;
   };
 
+  const renderItem = (item: any) => {
+    console.log(item);
+    return (
+      <TouchableOpacity>
+        <Card>
+          <Card.Content>
+            <View>
+              <Text>{item.name}</Text>
+            </View>
+          </Card.Content>
+        </Card>
+      </TouchableOpacity>
+    );
+  };
+
   return (
-    <View className="flex-1 bg-white">
+    <View style={{ flex: 1 }}>
       {/* Get Events fetched from google calendar and display them in the calendar component */}
-      <Calendar
-        current={"2024-01-01"}
-        minDate={"2024-01-01"}
-        maxDate={"2024-12-31"}
-        monthFormat={"yyyy MM"}
-        onDayPress={(day) => {
-          console.log("Selected day:", day);
-
-          if (markedDatesWithDate && markedDatesWithDate[day.dateString]) {
-            console.log(
-              "Marked dates with date:",
-              markedDatesWithDate[day.dateString]
-            );
-          } else {
-            console.log("No marked dates with date for this day");
-          }
-
-          if (
-            markedDatesWithDateTime &&
-            markedDatesWithDateTime[day.dateString]
-          ) {
-            console.log(
-              "Marked dates with dateTime:",
-              markedDatesWithDateTime[day.dateString]
-            );
-          } else {
-            console.log("No marked dates with dateTime for this day");
-          }
-
-          setSelected(day.dateString);
-        }}
-        theme={{
-          arrowColor: "red",
-          selectedDayBackgroundColor: "white",
-          selectedDayTextColor: "white",
-        }}
-        markedDates={{
-          [selected]: {
-            selected: true,
-            disableTouchEvent: true,
-            selectedColor: "red",
-          },
-        }}
+      <Agenda
+        items={markedDatesWithDateTime}
+        renderItem={renderItem}
+        selected={"2024-2-29"}
       />
     </View>
   );
