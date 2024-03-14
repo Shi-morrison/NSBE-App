@@ -4,7 +4,7 @@ import { Avatar, Button, Card, Text } from "react-native-paper";
 
 const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   return (
-    <View className="bg-red-300">
+    <View className="flex bg-red-300">
       <Card>
         <Card.Title title="Calendar" subtitle="NSBE-Events" />
         <Card.Cover
