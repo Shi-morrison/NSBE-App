@@ -7,7 +7,6 @@ import {
   AgendaSchedule,
 } from "react-native-calendars";
 import { useState } from "react";
-import { Card } from "react-native-paper";
 import daysOfWeek from "../constants/Days";
 
 interface EventDate {
@@ -153,14 +152,10 @@ const MyCalendar = () => {
   const renderItem = (item: any) => {
     return (
       <TouchableOpacity>
-        <Card>
-          <Card.Content>
-            <View className="flex-1">
-              <Text>{item.name}</Text>
-              <Text>{`${item.startTime} - ${item.endTime}`}</Text>
-            </View>
-          </Card.Content>
-        </Card>
+        <View className="flex-1">
+          <Text>{item.name}</Text>
+          <Text>{`${item.startTime} - ${item.endTime}`}</Text>
+        </View>
       </TouchableOpacity>
     );
   };
