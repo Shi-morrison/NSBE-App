@@ -155,7 +155,7 @@ const MyCalendar = () => {
       <TouchableOpacity>
         <Card>
           <Card.Content>
-            <View className="flex flex-1">
+            <View className="flex-1">
               <Text>{item.name}</Text>
               <Text>{`${item.startTime} - ${item.endTime}`}</Text>
             </View>
@@ -166,7 +166,7 @@ const MyCalendar = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View className="flex-1">
       {/* Get Events fetched from google calendar and display them in the calendar component */}
       <Agenda
         items={markedDatesWithDateTime}
