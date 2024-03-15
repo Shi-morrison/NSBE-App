@@ -8,6 +8,7 @@ import {
 } from "react-native-calendars";
 import { useState } from "react";
 import daysOfWeek from "../constants/Days";
+import { Card, ListItem, Button, Icon } from "react-native-elements";
 
 interface EventDate {
   summary: string;
@@ -42,7 +43,7 @@ const MyCalendar = () => {
   const [markedDatesWithDateTime, setMarkedDatesWithDateTime] = useState<{
     [date: string]: any;
   }>({});
-  const [items, setItems] = useState({});
+  const [currentDay, setCurrentDay] = useState("");
 
   const fetchData = async () => {
     try {
@@ -92,6 +93,9 @@ const MyCalendar = () => {
 
   useEffect(() => {
     fetchData(); // Call function on every new render of the calendar
+    const currDate = new Date();
+    const formattedDate = currDate.toISOString().slice(0, 10);
+    setCurrentDay(formattedDate);
   }, []);
 
   const convertToMarkedDates = (eventsArray: EventDate[]) => {
@@ -108,7 +112,7 @@ const MyCalendar = () => {
         }
         markedDatesObj[dateString].push({
           name: event.summary,
-          day: daysOfWeek[startDate.getDay()],
+          day: daysOfWeek[startDate.getDay() + 1],
           height: 80,
         });
       }
@@ -149,13 +153,22 @@ const MyCalendar = () => {
     return markedDatesObj;
   };
 
+  const renderEmpty = () => {
+    return <View></View>;
+  };
+
   const renderItem = (item: any) => {
     return (
       <TouchableOpacity>
-        <View className="flex-1">
-          <Text>{item.name}</Text>
-          <Text>{`${item.startTime} - ${item.endTime}`}</Text>
-        </View>
+        <ListItem className="flex-1 border-b mt-4">
+          <ListItem.Content>
+            <ListItem.Title className="text-base">{item.name}</ListItem.Title>
+            <ListItem.Subtitle className="text-sm text-gray-500">
+              {item.startTime}-{item.endTime}
+            </ListItem.Subtitle>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
       </TouchableOpacity>
     );
   };
@@ -166,7 +179,8 @@ const MyCalendar = () => {
       <Agenda
         items={markedDatesWithDateTime}
         renderItem={renderItem}
-        selected={"2024-2-29"}
+        renderEmptyData={renderEmpty}
+        selected={currentDay}
       />
     </View>
   );
