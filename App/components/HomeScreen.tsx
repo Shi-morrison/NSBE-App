@@ -119,7 +119,7 @@ const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         </View>
         {/* Button */}
         <TouchableOpacity
-          className="flex bg-white w-[320px] rounded-sm"
+          className="flex bg-white w-[320px] rounded-sm p-2"
           onPress={() => navigation.navigate("Calendar")}
         >
           <Text className="text-center font-bold text-xl">
@@ -129,7 +129,7 @@ const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View className="mt-10">
+      <View className="mt-20">
         <Socials />
       </View>
     </ScrollView>
